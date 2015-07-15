@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">Mantenimiento ABC</string>
-
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">Usuarios</string>
+    <string name="agregar_usuario">Nuevo</string>
+    <string name="informacion">Información</string>
 </resources>

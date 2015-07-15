@@ -5,31 +5,31 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends ActionBarActivity {
+    private ListView list;
+    private String[] sistemas = {"prueba1", "prueba2", "prueba3"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*UsuariosSQLiteHelper usdbh = new UsuariosSQLiteHelper(this);
-        SQLiteDatabase db = usdbh.getWritableDatabase();
+        /*mySQLiteHelper db = new mySQLiteHelper(this);
+        db.agregarUsuario(new usuario("Wanderson", "Lopez", "lopez.wanderson@gmail.com"));*/
 
-        if (db != null) {
-            for (int i=1; i<=5; i++) {
-                int codigo = i;
-                String nombres = "nombre " + i;
-                String apellidos = "apellido " + i;
-                String email = "email " + i;
+        usuarioSQLiteHelper db = new usuarioSQLiteHelper(this);
+        List<usuario> usrs = db.obtenerUsuariosTodos();
 
-                db.execSQL("INSERT INTO Usuarios (codigo, nombres, apellidos, email)" +
-                        "VALUES(" + codigo + ", '" + nombres + "', '" + apellidos + "', '" + email + "')");
-            }
-
-            db.close();
-        }*/
+        list = (ListView)findViewById(R.id.listView);
+        ArrayAdapter adaptador;
+        adaptador = new usuarioArrayAdapter(this, usrs);
+        list.setAdapter(adaptador);
     }
 
     @Override
@@ -47,7 +47,11 @@ public class MainActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.menu_agregar_usuario) {
+            return true;
+        }
+
+        if (id == R.id.menu_informacion) {
             return true;
         }
 
