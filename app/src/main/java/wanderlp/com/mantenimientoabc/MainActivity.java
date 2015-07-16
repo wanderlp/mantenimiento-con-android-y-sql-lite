@@ -1,35 +1,56 @@
 package wanderlp.com.mantenimientoabc;
 
-import android.database.sqlite.SQLiteDatabase;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import usuarioPackage.usuario;
+import usuarioPackage.usuarioArrayAdapter;
+import usuarioPackage.usuarioSQLiteHelper;
 
 public class MainActivity extends ActionBarActivity {
     private ListView list;
-    private String[] sistemas = {"prueba1", "prueba2", "prueba3"};
+    private TextView lblListaVacia;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*mySQLiteHelper db = new mySQLiteHelper(this);
-        db.agregarUsuario(new usuario("Wanderson", "Lopez", "lopez.wanderson@gmail.com"));*/
+        list = (ListView)findViewById(R.id.listView);
+        lblListaVacia = (TextView)findViewById(R.id.lblListaVacia);
 
+        cargarLista();
+    }
+
+    private void cargarLista() {
         usuarioSQLiteHelper db = new usuarioSQLiteHelper(this);
         List<usuario> usrs = db.obtenerUsuariosTodos();
 
-        list = (ListView)findViewById(R.id.listView);
-        ArrayAdapter adaptador;
+        final ArrayAdapter adaptador;
         adaptador = new usuarioArrayAdapter(this, usrs);
         list.setAdapter(adaptador);
+        list.setEmptyView(lblListaVacia);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                usuario usr = (usuario) adaptador.getItem(position);
+                Intent intent = new Intent(getApplicationContext(), ModificarUsuarioActivity.class);
+                intent.putExtra("wanderlp.com.mantenimientoabc.IdUsuario", usr.getId());
+                startActivityForResult(intent, 2);
+            }
+        });
     }
 
     @Override
@@ -48,13 +69,23 @@ public class MainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.menu_agregar_usuario) {
+            Intent intent = new Intent(this, AgregarUsuarioActivity.class);
+            startActivityForResult(intent, 1);
             return true;
         }
 
         if (id == R.id.menu_informacion) {
+            Intent intent = new Intent(this, InformacionActivity.class);
+            startActivity(intent);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        cargarLista();
     }
 }

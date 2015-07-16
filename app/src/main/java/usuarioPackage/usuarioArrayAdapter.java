@@ -1,4 +1,4 @@
-package wanderlp.com.mantenimientoabc;
+package usuarioPackage;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
+
+import wanderlp.com.mantenimientoabc.R;
 
 /**
  * Created by wlopez on 15/07/2015.

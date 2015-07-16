@@ -1,8 +1,5 @@
-package wanderlp.com.mantenimientoabc;
+package usuarioPackage;
 
-/**
- * Created by wlopez on 14/07/2015.
- */
 public class usuario {
     private int id;
     private String nombres;
@@ -10,7 +7,20 @@ public class usuario {
     private String email;
 
     public usuario() {
+        super();
+    }
 
+    public usuario(int id) {
+        super();
+        this.id = id;
+    }
+
+    public usuario(int id, String nombres, String apellidos, String email) {
+        super();
+        this.id = id;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.email = email;
     }
 
     public usuario(String nombres, String apellidos, String email) {
